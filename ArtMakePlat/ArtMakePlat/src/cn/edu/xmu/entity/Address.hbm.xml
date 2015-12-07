@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2012-11-22 22:11:50 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+	<class name="cn.edu.xmu.entity.Address" table="rl_address" catalog="artmake">
+		<id name="record_id" type="int">
+			<column name="record_id" />
+			<generator class="identity" />
+		</id>
+		<property name="name" type="string">
+			<column name="name" length="20" not-null="true" />
+		</property>
+		<property name="address" type="string">
+			<column name="address" length="40" not-null="true" />
+		</property>
+		<property name="tel" type="string">
+			<column name="tel" length="20" not-null="true" />
+		</property>
+		<many-to-one name="person" class="cn.edu.xmu.entity.Person" fetch="select">
+			<column name="person_id" not-null="true"></column>
+		</many-to-one>
+	</class>
+</hibernate-mapping>

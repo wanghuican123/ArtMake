@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- 定义数据源Bean，数据源实现 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<!-- 指定连接数据库的URL -->
+		<property name="url">
+			<value>jdbc:mysql://localhost/artmake</value>
+		</property>
+		<!-- 指定连接数据库的用户名 -->
+		<property name="username">
+			<value>root</value>
+		</property>
+		<!-- 指定连接数据库的密码 -->
+		<property name="password">
+			<value>root</value>
+		</property>
+	</bean>
+	<!-- 定义Hibernate的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+		<!-- mappingResouces属性用来列出全部映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<!-- 以下用来列出Hibernate映射文件 -->
+				<value>cn/edu/xmu/entity/Person.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Role.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Address.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Article.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Key.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Product.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Demand.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Proimg.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Prokey.hbm.xml</value>
+				<value>cn/edu/xmu/entity/Demkey.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- 依赖注入 通过注解注入 -->
+	<!-- 即将被注入dao -->
+	<bean id="dao" class="cn.edu.xmu.daoImpl.BaseDaoImpl"></bean>
+	<bean id="persondao" class="cn.edu.xmu.daoImpl.PersonDaoImpl"></bean>
+	<!-- 业务层注入 即将注入action控制层 -->
+	<bean id="loginService" class="cn.edu.xmu.serviceImpl.LoginServiceImpl"></bean>
+	<bean id="registerService" class="cn.edu.xmu.serviceImpl.RegisterServiceImpl"></bean>
+	<context:annotation-config />
+
+	<!-- 开启Spring的Bean自动扫描机制来查找与管理Bean实例 -->
+    <context:component-scan base-package="com" />
+	
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Struts2配置文件的DTD信息 -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+	"http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<!-- Struts2配置文件的根元素 -->
+<struts>
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<!-- 配置了系列常量 -->
+	<package name="default" namespace="/" extends="struts-default">
+         <!--定义全局Result-->  
+        <global-results>  
+            <result name="login" type="redirect">/user.jsp</result>
+            <result name="error">/error.jsp </result>     
+         </global-results>  
+		<!-- 登录配置 -->
+		<action name="login" class="cn.edu.xmu.action.LoginAction">
+			<result name="loginSuccess">/user.jsp</result>
+			<result name="input">/user.jsp</result>
+		</action>
+		<action name="logout" class="cn.edu.xmu.action.LogoutAction">
+			<result name="exit">/user.jsp</result>
+		</action>
+		<action name="index" class="cn.edu.xmu.action.IndexAction">
+			<result name="success">/index.html</result>
+		</action>
+		<action name="register" class="cn.edu.xmu.action.RegisterAction">
+			<result name="registerSuccess">/user.jsp</result>
+			<result name="input">/user.jsp</result>
+		</action>
+
+	</package>
+
+</struts>

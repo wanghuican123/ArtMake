@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2012-11-22 22:11:50 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+	<class name="cn.edu.xmu.entity.Person" table="bn_person" catalog="artmake">
+		<id name="person_id" type="int">
+			<column name="person_id" />
+			<generator class="identity" />
+		</id>
+		<property name="account" type="string">
+			<column name="account" length="20" not-null="true" />
+		</property>
+		<property name="password" type="string">
+			<column name="password" length="20" not-null="true" />
+		</property>
+		<property name="realname" type="string">
+			<column name="realname" length="20" not-null="true" />
+		</property>
+		<property name="email" type="string">
+			<column name="email" length="20" />
+		</property>
+		<property name="tel" type="string">
+			<column name="tel" length="20" />
+		</property>
+		<property name="address" type="string">
+			<column name="address" length="40" />
+		</property>
+		<property name="sex" type="string">
+			<column name="sex" length="2" />
+		</property>
+		<property name="introduce" type="string">
+			<column name="introduce" length="80" />
+		</property>
+		<many-to-one name="role" class="cn.edu.xmu.entity.Role" fetch="select">
+			<column name="role_id" not-null="true"></column>
+		</many-to-one>
+		<bag name="addressList" order-by="record_id desc">
+			<key>
+				<column name="person_id" not-null="true" />
+			</key>
+			<one-to-many class="cn.edu.xmu.entity.Address" />
+		</bag>
+		<bag name="productList" order-by="uptime desc">
+			<key>
+				<column name="person_id" not-null="true" />
+			</key>
+			<one-to-many class="cn.edu.xmu.entity.Product" />
+		</bag>
+		<bag name="demandList" order-by="uptime desc">
+			<key>
+				<column name="person_id" not-null="true" />
+			</key>
+			<one-to-many class="cn.edu.xmu.entity.Demand" />
+		</bag>
+	</class>
+</hibernate-mapping>

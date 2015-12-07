@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2012-11-22 22:11:50 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+	<class name="cn.edu.xmu.entity.Role" table="bn_role" catalog="artmake">
+		<id name="role_id" type="int">
+			<column name="role_id" />
+			<generator class="identity" />
+		</id>
+		<property name="role_code" type="int">
+			<column name="role_code" not-null="true" />
+		</property>
+		<property name="rolename" type="string">
+			<column name="rolename" length="20" not-null="true" />
+		</property>
+		<bag name="personList" order-by="person_id asc">
+			<key>
+				<column name="person_id" not-null="true" />
+			</key>
+			<one-to-many class="cn.edu.xmu.entity.Person" />
+		</bag>
+	</class>
+</hibernate-mapping>

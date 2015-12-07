@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2012-11-22 22:11:50 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+	<class name="cn.edu.xmu.entity.Demand" table="bn_demand" catalog="artmake">
+		<id name="demand_id" type="int">
+			<column name="demand_id" />
+			<generator class="identity" />
+		</id>
+		<property name="price" type="double">
+			<column name="price"/>
+		</property>
+		<property name="endprice" type="double">
+			<column name="endprice"/>
+		</property>
+		<property name="startprice" type="double">
+			<column name="startprice"/>
+		</property>
+		<property name="type" type="int">
+			<column name="type" not-null="true"/>
+		</property>
+		<property name="describe" type="string">
+			<column name="describe" length="80"/>
+		</property>
+		 <property name="uptime" type="timestamp">
+            <column name="uptime" length="19" />
+        </property>
+       <many-to-one name="person" class="cn.edu.xmu.entity.Person" fetch="select">
+			<column name="person_id" not-null="true"></column>
+		</many-to-one>
+		<property name="state" type="int">
+			<column name="state" not-null="true"/>
+		</property>
+		<bag name="keyList" order-by="record_id desc">
+			<key>
+				<column name="demand_id" not-null="true" />
+			</key>
+			<one-to-many class="cn.edu.xmu.entity.Demkey" />
+		</bag>
+	</class>
+</hibernate-mapping>

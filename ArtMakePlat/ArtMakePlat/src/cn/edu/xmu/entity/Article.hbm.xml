@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2012-11-22 22:11:50 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+	<class name="cn.edu.xmu.entity.Article" table="bn_article" catalog="artmake">
+		<id name="Article_id" type="int">
+			<column name="Article_id" />
+			<generator class="identity" />
+		</id>
+		<property name="content" type="string">
+			<column name="content" length="80" not-null="true" />
+		</property>
+		<property name="image" type="string">
+			<column name="image" length="80" not-null="true" />
+		</property>
+		<property name="important" type="int">
+			<column name="important" not-null="true" />
+		</property>
+		 <property name="uptime" type="timestamp">
+            <column name="uptime" length="19" />
+        </property>
+        <property name="video" type="string">
+            <column name="video" length="80" />
+        </property>
+	</class>
+</hibernate-mapping>

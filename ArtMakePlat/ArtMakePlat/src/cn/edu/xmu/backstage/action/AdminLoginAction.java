@@ -1,0 +1,109 @@
+package cn.edu.xmu.backstage.action;
+
+import cn.edu.xmu.entity.Person;
+import cn.edu.xmu.service.LoginService;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import javax.annotation.Resource;
+
+/**
+ * @ClassName: AdminLoginAction
+ * @Description: 登录 team: 3-10打屁屁小队
+ * @date 2015年11月20日 上午2:54:21
+ */
+public class AdminLoginAction extends ActionSupport {
+
+	/**
+	 * @Fields loginService : 登录业务逻辑组件
+	 */
+	@Resource(name = "loginService")
+	LoginService loginService;
+
+	/**
+	 * @Fields person
+	 */
+	private Person person;
+
+	/**
+	 * getter method
+	 * 
+	 * @return the loginService
+	 */
+
+	public LoginService getLoginService() {
+		return loginService;
+	}
+
+	/**
+	 * setter method
+	 * 
+	 * @param loginService
+	 *            the loginService to set
+	 */
+
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
+	}
+
+	/**
+	 * getter method
+	 * 
+	 * @return the person
+	 */
+
+	public Person getPerson() {
+		return person;
+	}
+
+	/**
+	 * setter method
+	 * 
+	 * @param person
+	 *            the person to set
+	 */
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	/*
+	 * Title: execute Description:
+	 * 
+	 * @return
+	 * 
+	 * @throws Exception
+	 * 
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
+	@Override
+	public String execute() throws Exception {
+		// 登录前清空所有session
+		ActionContext.getContext().getSession().clear();
+		Person p = loginService.login(person);
+		if (p != null) {
+			ActionContext.getContext().getSession().put("admin", p);
+			return "loginSuccess";
+		}
+		return INPUT;
+	}
+
+	@Override
+	public void validate() {
+		/* Check that fields are not empty */
+		  System.out.println("validate");
+		if (person.getPassword().length() == 0) {
+			addFieldError("password", getText("password is required"));
+		}
+		if (person.getAccount().length() == 0) {
+			addFieldError("account", getText("account is required"));
+		}
+		int type = loginService.check(person);
+		if ((type != 4 && type !=5 || type == 1) && person.getPassword().length() != 0) {
+			addFieldError("noaccount", getText("account is not exist"));
+		}else if (type == 5 && person.getPassword().length() != 0) {
+			addFieldError("wrongpassword", getText("password is wrong"));
+		}
+	}
+}
